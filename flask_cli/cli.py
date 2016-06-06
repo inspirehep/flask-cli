@@ -457,6 +457,19 @@ def shell_command():
 
     ctx.update(app.make_shell_context())
 
+    import warnings
+    warnings.filterwarnings(
+        'ignore',
+        category=DeprecationWarning,
+        module='.*/IPython/.*'
+    )
+    try:
+        from IPython import embed
+        embed(banner1=banner, user_ns=ctx)
+        return
+    except ImportError:
+        pass
+
     code.interact(banner=banner, local=ctx)
 
 
